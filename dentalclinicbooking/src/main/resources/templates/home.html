@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="th" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dental Clinic</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { min-height: 100vh; font-family: 'Segoe UI', sans-serif; color: #123a5c; background: linear-gradient(135deg, #eaf7ff, #b9dfff); }
+        .hero-card { background: rgba(255,255,255,.92); border: 0; border-radius: 24px; box-shadow: 0 15px 40px rgba(13,88,151,.16); }
+        .btn-primary { background: linear-gradient(135deg, #2f7ddc, #4da5ff); border: 0; border-radius: 999px; padding: 10px 22px; }
+        .btn-outline-primary { border-radius: 999px; }
+        .feature { background: #f8fcff; border-radius: 16px; }
+    </style>
+</head>
+<body>
+    <main class="container py-5">
+        <section class="hero-card p-4 p-md-5 mx-auto" style="max-width: 1000px">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-7">
+                    <p class="text-primary fw-semibold mb-2">DENTAL CLINIC</p>
+                    <h1 class="display-6 fw-bold">ดูแลรอยยิ้มของคุณอย่างใส่ใจ</h1>
+                    <p class="lead text-muted mt-3">คลินิกทันตกรรมสำหรับการตรวจสุขภาพฟัน อุดฟัน ขูดหินปูน และรับคำแนะนำจากทีมทันตแพทย์</p>
+                    <p class="text-muted">ผู้ป่วยต้องเข้าสู่ระบบก่อนจองคิว</p>
+
+                    <div class="d-flex flex-wrap gap-2 mt-4">
+                        <a href="/login" class="btn btn-primary">เข้าสู่ระบบเพื่อจองคิว</a>
+                        <a href="/register/patient" class="btn btn-outline-primary">สมัครสมาชิกผู้ป่วย</a>
+                        <a href="/nurse/appointments" class="btn btn-outline-primary">ทางเข้าพยาบาล</a>
+                        <a href="/dashboard" class="btn btn-outline-primary">ทางเข้าหมอ</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="feature p-4">
+                        <h2 class="h4 fw-bold">บริการของเรา</h2>
+                        <ul class="mb-0 text-muted">
+                            <li class="mb-2">ตรวจสุขภาพช่องปากและฟัน</li>
+                            <li class="mb-2">อุดฟันและขูดหินปูน</li>
+                            <li class="mb-2">รากฟันเทียม</li>
+                            <li>เลือกวันและเวลานัดได้สะดวก</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
