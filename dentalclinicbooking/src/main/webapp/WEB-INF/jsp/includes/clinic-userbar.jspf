@@ -1,0 +1,15 @@
+<%@ page pageEncoding="UTF-8" %>
+<div class="clinic-userbar">
+  <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2 py-2">
+    <a class="clinic-userbar-brand" href="${pageContext.request.contextPath}/">🦷 SmileCare</a>
+    <div class="d-flex align-items-center gap-2">
+      <span class="small text-white-50">เข้าสู่ระบบ: <strong class="text-white">${pageContext.request.userPrincipal.name}</strong></span>
+      <span class="small text-white-50 d-none d-lg-inline">ออกอัตโนมัติเมื่อไม่ใช้งาน 30 นาที</span>
+      <form action="${pageContext.request.contextPath}/logout" method="post" class="d-inline">
+        <button class="btn btn-sm btn-light" type="submit">ออกจากระบบ</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>window.smileCareContextPath = '${pageContext.request.contextPath}';</script>
+<script src="${pageContext.request.contextPath}/js/session-timeout.js?v=1" defer></script>

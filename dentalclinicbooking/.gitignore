@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Local test artifacts ###
+*.cookies
+*-page.html
+dentist-schedules.html
+patient-appointments.html
+mvn-test.log
+spring-boot-*.jar

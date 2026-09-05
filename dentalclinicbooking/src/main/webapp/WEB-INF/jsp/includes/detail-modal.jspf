@@ -1,0 +1,11 @@
+<%@ page pageEncoding="UTF-8" %>
+<dialog class="detail-modal" data-detail-dialog aria-labelledby="detailModalTitle">
+  <div class="detail-modal-header">
+    <h2 class="h5 mb-0" id="detailModalTitle">รายละเอียด</h2>
+    <button class="detail-modal-close" type="button" data-detail-close aria-label="ปิด">&times;</button>
+  </div>
+  <div class="detail-modal-body" data-detail-content>
+    <div class="detail-modal-loading">กำลังโหลดข้อมูล...</div>
+  </div>
+</dialog>
+<script src="${pageContext.request.contextPath}/js/detail-modal.js?v=1" defer></script>
