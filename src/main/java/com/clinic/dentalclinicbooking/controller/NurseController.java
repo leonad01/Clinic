@@ -51,7 +51,13 @@ public class NurseController {
 
   @GetMapping("/appointments/{id}")
   public String viewAppointment(@PathVariable Long id, Model model) {
-    model.addAttribute("appointment", appointments.findById(id));
+    var appointment = appointments.findById(id);
+    model.addAttribute("appointment", appointment);
+    String patientPhone = appointment.getPhone();
+    if ((patientPhone == null || patientPhone.isBlank()) && appointment.getPatient() != null) {
+      patientPhone = appointment.getPatient().getPhone();
+    }
+    model.addAttribute("patientPhone", patientPhone);
     return "nurse-appointment-detail-v2";
   }
 

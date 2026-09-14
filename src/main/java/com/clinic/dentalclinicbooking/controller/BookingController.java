@@ -55,7 +55,7 @@ public class BookingController {
     var patient = patientRepository.findByUsername(authentication.getName()).orElseThrow();
     appointment.setPatient(patient);
     appointment.setPatientName(patient.getFirstName() + " " + patient.getLastName());
-    appointment.setPhone("");
+    appointment.setPhone(patient.getPhone());
     appointment.setEmail(patient.getEmail());
     appointment.setDentistSchedule(schedule);
     appointment.setDentist(schedule.getDentist());
