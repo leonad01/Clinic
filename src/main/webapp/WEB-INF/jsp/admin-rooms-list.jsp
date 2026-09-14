@@ -1,0 +1,7 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>จัดการห้องตรวจ | SmileCare</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link href="${pageContext.request.contextPath}/css/clinic.css?v=12" rel="stylesheet"></head>
+<body class="bg-light"><%@ include file="includes/clinic-userbar.jspf" %><main class="container py-5"><div class="d-flex flex-wrap justify-content-between align-items-center gap-2"><h1 class="h2 mb-0">จัดการห้องตรวจ</h1><div class="d-flex gap-2"><a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/rooms/new">เพิ่มห้องตรวจ</a><a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/admin/staff">จัดการบุคลากร</a></div></div>
+<div class="card shadow-sm mt-3"><div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>ห้องตรวจ</th><th>สถานะ</th></tr></thead><tbody><c:forEach items="${rooms}" var="room"><tr><td>${room.name}</td><td><span class="status-pill status-${room.status}">${room.status}</span></td></tr></c:forEach><c:if test="${empty rooms}"><tr><td colspan="2" class="text-center text-secondary py-4">ยังไม่มีข้อมูลห้องตรวจ</td></tr></c:if></tbody></table></div></div>
+</main></body></html>
