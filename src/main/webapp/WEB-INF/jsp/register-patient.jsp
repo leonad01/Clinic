@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>สมัครสมาชิก</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/clinic.css?v=9" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/clinic.css?v=13" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/js/register-patient.js?v=2" defer></script>
   </head>
 <body class="bg-light">
   <main class="container py-5">
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <div class="card shadow-sm p-4">
+        <div class="card shadow-sm p-4 register-patient-card">
           <h1 class="h3">สมัครสมาชิกผู้ป่วย</h1>
           <c:if test="${not empty errorMessage}">
             <div class="alert alert-danger">${errorMessage}</div>

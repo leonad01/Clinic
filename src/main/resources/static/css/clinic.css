@@ -481,6 +481,11 @@ body:not(.bg-light) section.card:last-child { border-left: 5px solid var(--clini
 .clinic-contact address { line-height: 1.7; }
 .clinic-contact .h6 { color: var(--clinic-navy); }
 .clinic-hours { border-color: var(--clinic-border) !important; }
+.register-patient-card > h1 {
+  line-height: 1.45;
+  margin-bottom: 1rem;
+  padding-bottom: .15rem;
+}
 .nurse-header-actions .btn { align-self: center; min-width: 108px; padding: .42rem .65rem; font-size: .84rem; }
 
 @media (max-width: 576px) {
