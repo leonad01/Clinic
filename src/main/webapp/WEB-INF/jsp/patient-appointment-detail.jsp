@@ -41,7 +41,7 @@
 <div class="border-top pt-3 mt-3">
   <c:if test="${appointment.status == 'PENDING' || appointment.status == 'APPROVED'}">
     <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/patient/appointments/${appointment.id}/reschedule">เลื่อนนัด</a>
-    <form class="d-inline" action="${pageContext.request.contextPath}/patient/appointments/${appointment.id}/cancel" method="post">
+    <form class="d-inline" action="${pageContext.request.contextPath}/patient/appointments/${appointment.id}/cancel" method="post" data-confirm-cancel>
       <button class="btn btn-outline-danger">ยกเลิกนัด</button>
     </form>
   </c:if>

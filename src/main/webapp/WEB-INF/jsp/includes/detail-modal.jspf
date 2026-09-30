@@ -8,4 +8,4 @@
     <div class="detail-modal-loading">กำลังโหลดข้อมูล...</div>
   </div>
 </dialog>
-<script src="${pageContext.request.contextPath}/js/detail-modal.js?v=1" defer></script>
+<script src="${pageContext.request.contextPath}/js/detail-modal.js?v=2" defer></script>

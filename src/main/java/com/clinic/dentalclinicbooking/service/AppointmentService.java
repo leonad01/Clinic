@@ -1,6 +1,7 @@
 package com.clinic.dentalclinicbooking.service;
 
 import com.clinic.dentalclinicbooking.entity.Appointment;
+import com.clinic.dentalclinicbooking.repository.DentistScheduleRepository;
 import com.clinic.dentalclinicbooking.entity.TreatmentHistory;
 import com.clinic.dentalclinicbooking.repository.AppointmentRepository;
 import com.clinic.dentalclinicbooking.repository.TreatmentHistoryRepository;
@@ -14,15 +15,36 @@ public class AppointmentService {
 
   private final AppointmentRepository appointmentRepository;
   private final TreatmentHistoryRepository treatmentHistoryRepository;
+  private final DentistScheduleRepository dentistScheduleRepository;
 
   public AppointmentService(
-      AppointmentRepository appointmentRepository, TreatmentHistoryRepository treatmentHistoryRepository) {
+      AppointmentRepository appointmentRepository,
+      TreatmentHistoryRepository treatmentHistoryRepository,
+      DentistScheduleRepository dentistScheduleRepository) {
     this.appointmentRepository = appointmentRepository;
     this.treatmentHistoryRepository = treatmentHistoryRepository;
+    this.dentistScheduleRepository = dentistScheduleRepository;
   }
 
   public Appointment save(Appointment appointment) {
     return appointmentRepository.save(appointment);
+  }
+
+  @Transactional
+  public Appointment reserveAvailableSchedule(Appointment appointment, Long scheduleId) {
+    var schedule = dentistScheduleRepository.findByIdForUpdate(scheduleId).orElse(null);
+    if (schedule == null
+        || !"AVAILABLE".equals(schedule.getStatus())
+        || appointmentRepository.existsByDentistScheduleId(scheduleId)) {
+      return null;
+    }
+
+    appointment.setDentistSchedule(schedule);
+    appointment.setDentist(schedule.getDentist());
+    appointment.setAppointmentDate(schedule.getScheduleDate());
+    appointment.setAppointmentTime(schedule.getStartTime());
+    appointment.setAppointmentEndTime(schedule.getEndTime());
+    return appointmentRepository.saveAndFlush(appointment);
   }
 
   public List<Appointment> findAll() {

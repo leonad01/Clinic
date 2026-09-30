@@ -5,5 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+  boolean existsByDentistScheduleId(Long dentistScheduleId);
+
   List<Appointment> findByPatientUsernameOrderByAppointmentDateDesc(String username);
 }

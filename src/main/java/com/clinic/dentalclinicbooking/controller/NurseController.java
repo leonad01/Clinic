@@ -93,13 +93,10 @@ public class NurseController {
     appointment.setEmail(patient.getEmail());
     appointment.setDentalService(service);
     appointment.setService(service.getName());
-    appointment.setDentistSchedule(schedule);
-    appointment.setDentist(schedule.getDentist());
-    appointment.setAppointmentDate(schedule.getScheduleDate());
-    appointment.setAppointmentTime(schedule.getStartTime());
-    appointment.setAppointmentEndTime(schedule.getEndTime());
     appointment.setStatus("PENDING");
-    appointments.save(appointment);
+    if (appointments.reserveAvailableSchedule(appointment, scheduleId) == null) {
+      return showAppointmentForm(appointment, "ช่วงเวลานี้ถูกจองไปแล้ว กรุณาเลือกเวลาใหม่", model);
+    }
     return "redirect:/nurse/appointments";
   }
 

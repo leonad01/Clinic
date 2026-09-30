@@ -57,11 +57,6 @@ public class BookingController {
     appointment.setPatientName(patient.getFirstName() + " " + patient.getLastName());
     appointment.setPhone(patient.getPhone());
     appointment.setEmail(patient.getEmail());
-    appointment.setDentistSchedule(schedule);
-    appointment.setDentist(schedule.getDentist());
-    appointment.setAppointmentDate(schedule.getScheduleDate());
-    appointment.setAppointmentTime(schedule.getStartTime());
-    appointment.setAppointmentEndTime(schedule.getEndTime());
     if (serviceId != null) {
       var dentalService = dentalServiceRepository.findById(serviceId).orElse(null);
       if (dentalService == null) {
@@ -73,7 +68,12 @@ public class BookingController {
       appointment.setService(dentalService.getName());
     }
     appointment.setStatus("PENDING");
-    Appointment saved = appointmentService.save(appointment);
+    Appointment saved = appointmentService.reserveAvailableSchedule(appointment, scheduleId);
+    if (saved == null) {
+      model.addAttribute("errorMessage", "ช่วงเวลานี้ถูกจองไปแล้ว กรุณาเลือกเวลาใหม่");
+      loadAvailableSchedules(model);
+      return "booking";
+    }
     return "redirect:/patient/appointments/" + saved.getId();
   }
 

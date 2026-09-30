@@ -21,6 +21,14 @@ document.addEventListener("DOMContentLoaded", () => {
       detail.querySelectorAll('a[href$="/appointments"], a[href$="/schedules"]').forEach((element) => element.remove());
       detail.classList.remove("col-lg-8", "mx-auto", "shadow-sm");
       content.replaceChildren(detail);
+      const cancelForm = detail.querySelector("[data-confirm-cancel]");
+      if (cancelForm) {
+        cancelForm.addEventListener("submit", (submitEvent) => {
+          if (!window.confirm("ยืนยันการยกเลิกนัดหมายหรือไม่?\nการดำเนินการนี้ไม่สามารถย้อนกลับได้")) {
+            submitEvent.preventDefault();
+          }
+        });
+      }
     } catch (error) {
       window.location.assign(link.href);
     }
