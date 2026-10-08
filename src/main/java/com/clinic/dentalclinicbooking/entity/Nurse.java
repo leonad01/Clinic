@@ -23,8 +23,8 @@ public class Nurse {
   private String username;
 
   @NotBlank
-  @Size(min = 8, max = 16)
-  @Pattern(regexp = "[A-Za-z0-9!#_.]+")
+  @Size(min = 8, max = 100)
+  @Pattern(regexp = ".+")
   @Column(name = "nurse_password", nullable = false)
   private String password;
 

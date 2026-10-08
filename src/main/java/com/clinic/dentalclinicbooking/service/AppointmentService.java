@@ -44,11 +44,16 @@ public class AppointmentService {
     appointment.setAppointmentDate(schedule.getScheduleDate());
     appointment.setAppointmentTime(schedule.getStartTime());
     appointment.setAppointmentEndTime(schedule.getEndTime());
+    schedule.setStatus("PENDING");
     return appointmentRepository.saveAndFlush(appointment);
   }
 
   public List<Appointment> findAll() {
-    return appointmentRepository.findAll();
+    return appointmentRepository.findAllByOrderByAppointmentDateAscAppointmentTimeAsc();
+  }
+
+  public List<Appointment> findAllByStatus(String status) {
+    return appointmentRepository.findByStatusOrderByAppointmentDateAscAppointmentTimeAsc(status);
   }
 
   public List<Appointment> findForPatient(String username) {
@@ -59,16 +64,36 @@ public class AppointmentService {
     return appointmentRepository.findById(id).orElseThrow();
   }
 
+  @Transactional
   public void approve(Long id) {
     Appointment appointment = appointmentRepository.findById(id).orElseThrow();
     appointment.setStatus("APPROVED");
+    if (appointment.getDentistSchedule() != null) {
+      appointment.getDentistSchedule().setStatus("APPROVED");
+    }
     appointmentRepository.save(appointment);
   }
 
+  @Transactional
+  public boolean start(Long id) {
+    Appointment appointment = appointmentRepository.findById(id).orElseThrow();
+    if (!"APPROVED".equals(appointment.getStatus()) || appointment.getDentistSchedule() == null) {
+      return false;
+    }
+    appointment.setStatus("IN_PROGRESS");
+    appointment.getDentistSchedule().setStatus("IN_PROGRESS");
+    appointmentRepository.save(appointment);
+    return true;
+  }
+
+  @Transactional
   public boolean cancel(Long id) {
     Appointment appointment = appointmentRepository.findById(id).orElseThrow();
     if (!"PENDING".equals(appointment.getStatus()) && !"APPROVED".equals(appointment.getStatus())) {
       return false;
+    }
+    if (appointment.getDentistSchedule() != null) {
+      appointment.getDentistSchedule().setStatus("AVAILABLE");
     }
     appointment.setStatus("CANCELLED");
     appointment.setDentistSchedule(null);
@@ -80,7 +105,7 @@ public class AppointmentService {
   public boolean complete(Appointment appointment, String treatmentNote) {
     if (appointment.getPatient() == null
         || appointment.getDentist() == null
-        || !"APPROVED".equals(appointment.getStatus())
+        || !"IN_PROGRESS".equals(appointment.getStatus())
         || treatmentHistoryRepository.existsByAppointmentId(appointment.getId())) {
       return false;
     }
@@ -94,6 +119,7 @@ public class AppointmentService {
     treatmentHistoryRepository.save(history);
 
     appointment.setStatus("COMPLETED");
+    appointment.getDentistSchedule().setStatus("COMPLETED");
     appointmentRepository.save(appointment);
     return true;
   }

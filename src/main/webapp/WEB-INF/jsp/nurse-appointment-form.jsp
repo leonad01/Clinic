@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>บันทึกนัดหมาย</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/clinic.css?v=9" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/clinic.css?v=15" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/js/appointment-selector.js?v=4" defer></script>
   </head>
 <body class="bg-light">

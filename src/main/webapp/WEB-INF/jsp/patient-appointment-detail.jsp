@@ -22,7 +22,7 @@
           <span class="text-primary fw-semibold">SMILECARE APPOINTMENT</span>
           <h1 class="h3 mt-2">รายละเอียดนัดหมาย</h1>
         </div>
-      <span class="status-pill status-${appointment.status}">${appointment.status}</span>
+      <span class="status-pill status-${appointment.status}">${statusLabel.appointment(appointment.status)}</span>
     </div>
   <dl class="row mt-4 mb-2">
     <dt class="col-sm-4">รหัสการจอง</dt>

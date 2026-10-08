@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="th">
   <head>
@@ -33,7 +34,7 @@
   <tbody>
     <c:forEach items="${histories}" var="history">
       <tr>
-        <td>${history.treatmentDate}</td>
+        <td><a data-detail-modal href="${pageContext.request.contextPath}/nurse/treatment-histories/${history.id}">${history.treatmentDate}</a></td>
         <td>${history.dentist.firstName} ${history.dentist.lastName}</td>
         <td>${history.note}</td>
       </tr>
@@ -48,5 +49,6 @@
 </div>
 </div>
 </main>
+<%@ include file="includes/detail-modal.jspf" %>
 </body>
 </html>

@@ -20,11 +20,11 @@ public class Dentist {
   @Column(name = "dentist_username", nullable = false, unique = true)
   private String username;
 
-  @NotBlank @Size(min = 8, max = 16) @Pattern(regexp = "[A-Za-z0-9!#_.]+")
+  @NotBlank @Size(min = 8, max = 100) @Pattern(regexp = ".+")
   @Column(name = "dentist_password", nullable = false)
   private String password;
 
-  @NotBlank @Size(min = 2, max = 20) @Pattern(regexp = "[A-Za-z\\u0E01-\\u0E2E\\u0E30-\\u0E3A\\u0E40-\\u0E4E]+")
+  @NotBlank @Size(min = 2, max = 20) @Pattern(regexp = "[A-Za-z.\\u0E01-\\u0E2E\\u0E30-\\u0E3A\\u0E40-\\u0E4E]+")
   @Column(name = "dentist_first_name", nullable = false)
   private String firstName;
 

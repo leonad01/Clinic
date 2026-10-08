@@ -41,7 +41,7 @@
         <td>${item.patientName}</td>
         <td>${item.appointmentDate} ${item.appointmentTime}</td>
         <td>${item.service}</td>
-        <td><span class="status-pill status-${item.status}">${item.status}</span></td>
+        <td><span class="status-pill status-${item.status}">${statusLabel.appointment(item.status)}</span></td>
         <td>
           <a class="btn btn-sm btn-outline-primary" data-detail-modal href="${pageContext.request.contextPath}/nurse/appointments/${item.id}">ดูรายละเอียด</a>
           <form class="d-inline" action="${pageContext.request.contextPath}/nurse/appointments/${item.id}/approve" method="post">

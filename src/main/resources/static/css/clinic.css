@@ -417,14 +417,14 @@ a:hover { color: var(--clinic-primary-dark); }
   opacity: .22;
 }
 
-.status-PENDING { color: #9a6800; background: #fff8dd; border-color: #f2c24d; }
-.status-APPROVED,
-.status-AVAILABLE,
-.status-COMPLETED { color: #14734f; background: #e9f9f0; border-color: #72ca9b; }
-.status-COMPLETED { color: #176a91; background: #e8f6fc; border-color: #70bbdf; }
-.status-CANCELLED,
-.status-UNAVAILABLE { color: #66727a; background: #f0f3f4; border-color: #bcc6ca; }
-.status-REJECTED { color: #b34040; background: #fff0f0; border-color: #e89a9a; }
+.status-PENDING { color: #a65b00; background: #fff3dc; border-color: #f3bd58; }
+.status-APPROVED { color: #1765ad; background: #e9f4ff; border-color: #8bc3f4; }
+.status-IN_PROGRESS { color: #7246a4; background: #f3edff; border-color: #bc9ae4; }
+.status-COMPLETED { color: #14734f; background: #e8f8ef; border-color: #79cda0; }
+.status-CANCELLED { color: #b13f4b; background: #fff0f2; border-color: #eea3ad; }
+.status-AVAILABLE { color: #087c78; background: #e2f8f5; border-color: #78d2ca; }
+.status-UNAVAILABLE { color: #64727c; background: #f0f3f5; border-color: #bcc8ce; }
+.status-REJECTED { color: #a62e38; background: #fee8ea; border-color: #e68c95; }
 
 td { line-height: 1.45; }
 td .btn + .btn, td form + form { margin-left: .2rem; }
@@ -488,6 +488,158 @@ body:not(.bg-light) section.card:last-child { border-left: 5px solid var(--clini
 }
 .nurse-header-actions .btn { align-self: center; min-width: 108px; padding: .42rem .65rem; font-size: .84rem; }
 
+/* Dentist appointment workspace */
+.dentist-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #e7f7f7, #f9fdfd);
+  border: 1px solid #d5eeee;
+}
+.eyebrow { color: var(--clinic-primary); font-size: .78rem; font-weight: 800; letter-spacing: .08em; }
+.appointment-count { padding: .55rem .85rem; border-radius: 999px; color: #155b66; background: #d3efef; font-weight: 800; white-space: nowrap; }
+
+.appointment-calendar {
+  overflow: hidden;
+  border: 1px solid #d5eeee;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 .5rem 1.5rem rgba(12, 72, 88, .07);
+}
+.appointment-calendar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: #f2fbfb;
+  border-bottom: 1px solid #dceeee;
+}
+.schedule-date-filter { display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: .45rem; }
+.schedule-date-filter label { color: #486a77; font-size: .8rem; font-weight: 700; }
+.schedule-date-filter input { height: 31px; padding: .2rem .45rem; border: 1px solid #c8e0e5; border-radius: .4rem; color: #214c5d; background: #fff; font-size: .85rem; }
+.appointment-calendar__toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .75rem 1.5rem; border-bottom: 1px solid #dceeee; background: #fff; }
+.appointment-day-list { padding: .5rem; }
+.appointment-day-card {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1.4fr) minmax(8rem, .8fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  color: inherit;
+  text-decoration: none;
+  border-radius: .9rem;
+  transition: background-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.appointment-day-card + .appointment-day-card { border-top: 1px solid #e6f0f1; }
+.appointment-day-card:hover, .appointment-day-card:focus-visible {
+  color: inherit;
+  background: #effafa;
+  box-shadow: 0 .35rem .9rem rgba(12, 110, 125, .10);
+  transform: translateY(-1px);
+}
+.appointment-day-card__date { display: flex; align-items: center; gap: .8rem; }
+.appointment-day-card__calendar-icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #05798a;
+  font-size: 1.45rem;
+  background: #dff4f4;
+  border-radius: .7rem;
+}
+.appointment-day-card__label, .appointment-day-card__summary span { display: block; color: #647681; font-size: .82rem; }
+.appointment-day-card__date strong { display: block; color: #123d4d; font-size: 1.05rem; }
+.appointment-day-card__summary { padding-left: 1rem; border-left: 1px solid #dcebed; }
+.appointment-day-card__summary strong { color: #05798a; font-size: 1.25rem; }
+.appointment-day-card__action { color: var(--clinic-primary); font-weight: 700; white-space: nowrap; }
+.appointment-calendar__empty { padding: 3.5rem 1.5rem; }
+
+/* Dentist appointment table */
+.appointment-grid-wrap { background: #fff; }
+.appointment-grid { min-width: 760px; table-layout: fixed; border: 1px solid #91cbd1; border-collapse: separate; border-spacing: 0; }
+.appointment-grid th, .appointment-grid td { border: 0; border-right: 1px solid #b6dce0; border-bottom: 1px solid #b6dce0; padding: .85rem; vertical-align: middle; }
+.appointment-grid tr > *:last-child { border-right: 0; }
+.appointment-grid tbody tr:last-child > * { border-bottom: 0; }
+.appointment-grid thead th { color: #164654; background: #dff3f4; font-size: .9rem; text-align: center; white-space: nowrap; box-shadow: inset 0 -1px 0 #91cbd1; }
+.appointment-grid__date { width: 145px; color: #123d4d; background: #f2fbfb; font-weight: 800; }
+.appointment-grid td { min-width: 175px; background: #fff; }
+.appointment-grid__card { display: grid; gap: .28rem; min-height: 92px; padding: .8rem; border-radius: .7rem; background: #eef8ff; }
+.appointment-grid__card--available { background: #f0fbf7; }
+.appointment-grid__card--link { color: inherit; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease, background .18s ease; }
+.appointment-grid__card--link:hover, .appointment-grid__card--link:focus-visible { color: inherit; background: #e2f4ff; box-shadow: 0 .4rem .9rem rgba(8, 96, 112, .12); transform: translateY(-1px); }
+.appointment-grid__card--available.appointment-grid__card--link:hover, .appointment-grid__card--available.appointment-grid__card--link:focus-visible { background: #e1f7ee; }
+.appointment-grid__available { color: #168266; }
+.appointment-grid__patient { color: #075e70; font-weight: 800; text-decoration: none; }
+.appointment-grid__patient:hover, .appointment-grid__patient:focus-visible { color: #043e4a; text-decoration: underline; }
+.appointment-grid__service { color: #526b75; font-size: .8rem; }
+.appointment-grid__card .status-pill { width: fit-content; font-size: .72rem; }
+.appointment-grid__empty { display: grid; place-items: center; min-height: 92px; color: #a1b3b8; font-size: 1.25rem; background: #fbfdfd; border-radius: .7rem; }
+
+/* Nurse appointment dashboard */
+.nurse-dashboard__hero { display: flex; align-items: center; gap: 1rem; padding: .8rem .15rem; }
+.nurse-dashboard__hero-icon { display: grid; place-items: center; width: 4.25rem; height: 4.25rem; border: 1px solid #d7eef0; border-radius: 1.15rem; color: #057d89; background: #fff; font-size: 2rem; }
+.nurse-dashboard__hero h1 { margin: 0 0 .2rem; color: #105267; font-size: clamp(1.65rem, 3vw, 2.1rem); font-weight: 800; }
+.nurse-dashboard__hero p { color: var(--clinic-muted); }
+.nurse-dashboard__actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.appointment-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .9rem; }
+.appointment-stat { display: flex; align-items: center; gap: .8rem; min-height: 104px; padding: 1rem; border: 1px solid #dceced; border-radius: .9rem; color: #17495d; text-decoration: none; background: #fff; transition: transform .18s ease, box-shadow .18s ease; }
+.appointment-stat:hover { color: #17495d; box-shadow: 0 .45rem 1.2rem rgba(12, 86, 105, .12); transform: translateY(-2px); }
+.appointment-stat__icon { display: grid; flex: 0 0 3rem; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; font-size: 1.45rem; }
+.appointment-stat span:nth-child(2) { display: grid; line-height: 1.1; }
+.appointment-stat strong { font-size: .82rem; }
+.appointment-stat b { margin: .2rem 0; font-size: 1.7rem; }
+.appointment-stat small { color: var(--clinic-muted); }
+.appointment-stat i { margin-left: auto; font-size: 1.35rem; font-style: normal; }
+.appointment-stat--pending { border-color: #f3dfc5; background: #fffdf9; }.appointment-stat--pending .appointment-stat__icon { color: #e87820; background: #fff0df; }
+.appointment-stat--today { border-color: #cdebf0; background: #fbffff; }.appointment-stat--today .appointment-stat__icon { color: #087f8c; background: #dff6f5; }
+.appointment-stat--approved { border-color: #d3efdf; background: #fbfffc; }.appointment-stat--approved .appointment-stat__icon { color: #087a48; background: #def5e8; }
+.appointment-stat--cancelled { border-color: #e2e8eb; background: #fcfdfe; }.appointment-stat--cancelled .appointment-stat__icon { color: #5d6f79; background: #e9eef0; }
+.nurse-filter-card, .nurse-appointment-list { padding: .9rem; border: 1px solid #d5edef; border-radius: 1rem; background: rgba(255,255,255,.9); box-shadow: 0 .4rem 1.3rem rgba(12, 79, 96, .06); }
+.nurse-filter { display: grid; grid-template-columns: minmax(220px, 1.5fr) minmax(140px, .85fr) minmax(140px, .85fr) auto; gap: .75rem; align-items: end; }
+.nurse-filter label { display: block; margin: 0 0 .25rem .25rem; color: #486a77; font-size: .73rem; font-weight: 800; }
+.nurse-filter select { width: 100%; height: 42px; padding: 0 .75rem; border: 1px solid #cfe3e8; border-radius: .6rem; color: #214c5d; background: #fff; }
+.nurse-filter__search { display: flex; align-items: center; height: 42px; overflow: hidden; border: 1px solid #cfe3e8; border-radius: .6rem; background: #fff; }
+.nurse-filter__search > span { padding-left: .8rem; color: #527785; font-size: 1.3rem; }.nurse-filter__search input { width: 100%; min-width: 0; height: 100%; border: 0; outline: 0; padding: .5rem; font-size: .9rem; }.nurse-filter__search button { height: 100%; border: 0; padding: 0 .75rem; color: #fff; background: var(--clinic-primary); font-size: .82rem; font-weight: 700; }
+.nurse-filter__reset { height: 42px; white-space: nowrap; font-size: .82rem; }
+.nurse-appointment-list { padding: 0; overflow: hidden; }.nurse-appointment-list__header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.15rem; border-bottom: 1px solid #dceff1; }.nurse-appointment-list__header h2 { margin: 0; color: #11546a; font-size: 1.1rem; font-weight: 800; }.nurse-appointment-list__header h2 span { color: #66808c; font-size: .82rem; font-weight: 500; }
+.nurse-appointment-table { min-width: 1030px; }.nurse-appointment-table thead th { padding: .8rem 1rem; color: #08717f; background: #e8f8f8; border-color: #d9eeee; font-size: .8rem; white-space: nowrap; }.nurse-appointment-table td { padding: .8rem 1rem; color: #24495a; border-color: #e5eff1; font-size: .88rem; }.nurse-appointment-table td small, .nurse-appointment-table td strong { display: block; }.nurse-appointment-table td small { margin-top: .15rem; color: #64808c; font-size: .78rem; }.nurse-appointment-table__pending td { background: #f5fffe; }.nurse-booking-code { color: #155477 !important; font-weight: 800; }.dentist-chip { display: inline-block; padding: .32rem .56rem; border: 1px solid #bde5f1; border-radius: 999px; color: #0876ba; background: #eefaff; font-size: .75rem; white-space: nowrap; }.nurse-appointment-table__actions { display: flex; align-items: center; gap: .35rem; white-space: nowrap; }.nurse-appointment-table__actions form { margin: 0; }.nurse-appointment-table__actions .btn { font-size: .76rem; }
+
+/* Patient booking: display the selected date and available time on one row. */
+form[data-appointment-selector] > div:has(#appointmentDate),
+form[data-appointment-selector] > div:has(#scheduleId) {
+  display: inline-block;
+  width: calc(50% - .45rem);
+  vertical-align: top;
+}
+form[data-appointment-selector] > div:has(#appointmentDate) { margin-right: .55rem; }
+
+/* Nurse forms: show date and time controls on one row. */
+form[action$="/nurse/appointments"] .row > div:has([data-date]),
+form[action$="/nurse/appointments"] .row > div:has([data-time]) {
+  flex: 0 0 auto;
+  width: 50%;
+}
+form[action*="/nurse/appointments/"][data-appointment-selector] .row > div:has([data-dentist]) {
+  flex: 0 0 auto;
+  width: 100%;
+}
+form[action*="/nurse/appointments/"][data-appointment-selector] .row > div:has([data-date]),
+form[action*="/nurse/appointments/"][data-appointment-selector] .row > div:has([data-time]) {
+  flex: 0 0 auto;
+  width: 50%;
+}
+form[action$="/nurse/schedules"] .row > div:has(#scheduleDate),
+form[action$="/nurse/schedules"] .row > div:has(#startTime),
+form[action$="/nurse/schedules"] .row > div:has(#endTime) {
+  flex: 0 0 auto;
+  width: 33.333333%;
+}
+
 @media (max-width: 576px) {
   body.bg-light main.container::before { left: .6rem; }
   main.container { padding-top: 1.5rem !important; }
@@ -499,4 +651,16 @@ body:not(.bg-light) section.card:last-child { border-left: 5px solid var(--clini
   .clinic-userbar .d-flex { justify-content: center; }
   .nurse-header-actions { width: 100%; }
   .nurse-header-actions .btn { flex: 1 1 auto; min-width: 0; }
+  .dentist-hero { align-items: flex-start; flex-direction: column; gap: .8rem; }
+  .appointment-calendar__header { align-items: flex-start; flex-direction: column; }
+  .schedule-date-filter { justify-content: flex-start; }
+  .appointment-calendar__toolbar { align-items: flex-start; flex-direction: column; }
+  .appointment-day-card { grid-template-columns: 1fr auto; }
+  .appointment-day-card__summary { padding-left: 0; border-left: 0; }
+  .appointment-day-card__action { grid-column: 1 / -1; }
+  .appointment-grid th, .appointment-grid td { padding: .65rem; }
+  .nurse-dashboard__hero { flex-wrap: wrap; }.nurse-dashboard__actions { width: 100%; }.appointment-stats { grid-template-columns: 1fr 1fr; }.appointment-stat { min-height: 90px; padding: .75rem; }.appointment-stat__icon { flex-basis: 2.5rem; width: 2.5rem; height: 2.5rem; }.nurse-filter { grid-template-columns: 1fr; }.nurse-filter__reset { width: 100%; }
+  form[data-appointment-selector] > div:has(#appointmentDate), form[data-appointment-selector] > div:has(#scheduleId) { display: block; width: 100%; }
+  form[data-appointment-selector] > div:has(#appointmentDate) { margin-right: 0; }
+  form[action$="/nurse/appointments"] .row > div:has([data-date]), form[action$="/nurse/appointments"] .row > div:has([data-time]), form[action*="/nurse/appointments/"][data-appointment-selector] .row > div:has([data-date]), form[action*="/nurse/appointments/"][data-appointment-selector] .row > div:has([data-time]), form[action$="/nurse/schedules"] .row > div:has(#scheduleDate), form[action$="/nurse/schedules"] .row > div:has(#startTime), form[action$="/nurse/schedules"] .row > div:has(#endTime) { width: 100%; }
 }

@@ -45,7 +45,7 @@
   <c:forEach items="${rooms}" var="room">
     <tr>
       <td>${room.name}</td>
-      <td><span class="status-pill status-${room.status}">${room.status}</span></td>
+      <td><span class="status-pill status-${room.status}">${statusLabel.room(room.status)}</span></td>
     </tr>
 </c:forEach>
 </tbody>

@@ -4,10 +4,15 @@ import com.clinic.dentalclinicbooking.entity.Appointment;
 import com.clinic.dentalclinicbooking.entity.DentistSchedule;
 import com.clinic.dentalclinicbooking.repository.*;
 import com.clinic.dentalclinicbooking.service.AppointmentService;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,8 +49,46 @@ public class NurseController {
   }
 
   @GetMapping("/appointments")
-  public String listAppointments(Model model) {
-    model.addAttribute("appointments", appointments.findAll());
+  public String listAppointments(
+      @RequestParam(required = false, defaultValue = "ALL") String status,
+      @RequestParam(required = false, defaultValue = "") String q,
+      @RequestParam(required = false, defaultValue = "ALL") String service,
+      Model model) {
+    List<String> appointmentStatuses =
+        List.of("PENDING", "APPROVED", "IN_PROGRESS", "COMPLETED", "CANCELLED");
+    String selectedStatus = appointmentStatuses.contains(status) ? status : "ALL";
+    String selectedService = service == null || service.isBlank() ? "ALL" : service;
+    String keyword = q == null ? "" : q.trim();
+    List<Appointment> allAppointments = appointments.findAll();
+
+    List<Appointment> filteredAppointments =
+        allAppointments.stream()
+            .filter(item -> "ALL".equals(selectedStatus) || selectedStatus.equals(item.getStatus()))
+            .filter(item -> "ALL".equals(selectedService) || selectedService.equals(item.getService()))
+            .filter(
+                item ->
+                    keyword.isBlank()
+                        || (item.getPatientName() != null
+                            && item.getPatientName().toLowerCase().contains(keyword.toLowerCase()))
+                        || String.valueOf(item.getId()).contains(keyword))
+            .toList();
+
+    model.addAttribute("appointments", filteredAppointments);
+    model.addAttribute("selectedStatus", selectedStatus);
+    model.addAttribute("selectedService", selectedService);
+    model.addAttribute("keyword", keyword);
+    model.addAttribute(
+        "services",
+        allAppointments.stream()
+            .map(Appointment::getService)
+            .filter(Objects::nonNull)
+            .distinct()
+            .sorted()
+            .collect(Collectors.toList()));
+    model.addAttribute("pendingCount", allAppointments.stream().filter(item -> "PENDING".equals(item.getStatus())).count());
+    model.addAttribute("todayCount", allAppointments.stream().filter(item -> LocalDate.now().toString().equals(item.getAppointmentDate())).count());
+    model.addAttribute("approvedCount", allAppointments.stream().filter(item -> "APPROVED".equals(item.getStatus())).count());
+    model.addAttribute("cancelledCount", allAppointments.stream().filter(item -> "CANCELLED".equals(item.getStatus())).count());
     return "nurse-appointments-list";
   }
 
@@ -138,12 +181,19 @@ public class NurseController {
       return "nurse-appointment-reschedule";
     }
 
+    var previousSchedule = appointment.getDentistSchedule();
     appointment.setDentistSchedule(selectedSchedule);
     appointment.setDentist(selectedSchedule.getDentist());
     appointment.setAppointmentDate(selectedSchedule.getScheduleDate());
     appointment.setAppointmentTime(selectedSchedule.getStartTime());
     appointment.setAppointmentEndTime(selectedSchedule.getEndTime());
     appointment.setStatus("PENDING");
+    if (!isCurrentSchedule && previousSchedule != null) {
+      previousSchedule.setStatus("AVAILABLE");
+      schedules.save(previousSchedule);
+    }
+    selectedSchedule.setStatus("PENDING");
+    schedules.save(selectedSchedule);
     appointments.save(appointment);
     return "redirect:/nurse/appointments/" + id;
   }
@@ -161,7 +211,22 @@ public class NurseController {
       return "redirect:/nurse/schedules";
     }
     model.addAttribute("dentist", dentist);
-    model.addAttribute("schedules", schedules.findByDentistIdOrderByScheduleDateAscStartTimeAsc(id));
+    List<DentistSchedule> dentistSchedules =
+        schedules.findByDentistIdOrderByScheduleDateAscStartTimeAsc(id);
+    Map<String, Map<String, DentistSchedule>> schedulesByDate = new LinkedHashMap<>();
+    List<String> timeSlots = new ArrayList<>();
+    dentistSchedules.forEach(
+        schedule -> {
+          String timeSlot = schedule.getStartTime() + " - " + schedule.getEndTime();
+          schedulesByDate
+              .computeIfAbsent(schedule.getScheduleDate(), ignored -> new LinkedHashMap<>())
+              .put(timeSlot, schedule);
+          if (!timeSlots.contains(timeSlot)) {
+            timeSlots.add(timeSlot);
+          }
+        });
+    model.addAttribute("schedulesByDate", schedulesByDate);
+    model.addAttribute("timeSlots", timeSlots);
     return "nurse-dentist-schedules";
   }
 
@@ -234,6 +299,16 @@ public class NurseController {
     model.addAttribute("patient", patient);
     model.addAttribute("histories", treatmentHistories.findByPatientIdOrderByTreatmentDateDesc(id));
     return "nurse-treatment-history";
+  }
+
+  @GetMapping("/treatment-histories/{id}")
+  public String treatmentHistoryDetail(@PathVariable Long id, Model model) {
+    var history = treatmentHistories.findById(id).orElse(null);
+    if (history == null) {
+      return "redirect:/nurse/patients";
+    }
+    model.addAttribute("history", history);
+    return "nurse-treatment-history-detail";
   }
 
   @GetMapping("/dentists")
